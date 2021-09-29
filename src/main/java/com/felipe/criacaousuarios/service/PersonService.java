@@ -3,6 +3,7 @@ package com.felipe.criacaousuarios.service;
 import com.felipe.criacaousuarios.dto.MessageResponseDTO;
 import com.felipe.criacaousuarios.dto.request.PersonDTO;
 import com.felipe.criacaousuarios.entity.Person;
+import com.felipe.criacaousuarios.exception.PersonNotFoundException;
 import com.felipe.criacaousuarios.mapper.PersonMapper;
 import com.felipe.criacaousuarios.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,4 +44,9 @@ public class PersonService {
         ).collect(Collectors.toList());
     }
 
+    public PersonDTO findById(Long id) throws PersonNotFoundException{
+        Person person =  personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+        return personMapper.toDTO(person);
+
+    }
 }

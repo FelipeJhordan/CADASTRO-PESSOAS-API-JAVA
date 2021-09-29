@@ -4,6 +4,7 @@ package com.felipe.criacaousuarios.controller;
 import com.felipe.criacaousuarios.dto.MessageResponseDTO;
 import com.felipe.criacaousuarios.dto.request.PersonDTO;
 import com.felipe.criacaousuarios.entity.Person;
+import com.felipe.criacaousuarios.exception.PersonNotFoundException;
 import com.felipe.criacaousuarios.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,5 +34,11 @@ public class PersonController {
     @ResponseStatus(HttpStatus.OK)
     public List<PersonDTO> listAll() {
         return personService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public PersonDTO getById(@PathVariable  Long id) throws PersonNotFoundException {
+        return personService.findById(id);
     }
 }
